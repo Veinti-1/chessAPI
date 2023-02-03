@@ -33,6 +33,11 @@ public sealed class clsPlayerRepository<TI, TC> : clsDataAccess<clsPlayerEntityM
         }
         return r;
     }
+    public async Task<clsPlayerEntityModel<TI, TC>> getPlayer(TI id)
+    {
+        return await getEntity(id).ConfigureAwait(false);
+        //return await get(id).ConfigureAwait(false);
+    }
 
     public Task deletePlayer(TI id)
     {
@@ -44,9 +49,10 @@ public sealed class clsPlayerRepository<TI, TC> : clsDataAccess<clsPlayerEntityM
         throw new NotImplementedException();
     }
 
-    public Task updatePlayer(clsPlayer<TI> updatedPlayer)
+    public async Task updatePlayer(clsPlayer<TI> updatedPlayer)
     {
-        throw new NotImplementedException();
+        var p = fieldsAsParams(new clsPlayerEntityModel<TI, TC>(){id = updatedPlayer.id, email = updatedPlayer.email});
+        await set(p, null).ConfigureAwait(false);
     }
 
     protected override DynamicParameters fieldsAsParams(clsPlayerEntityModel<TI, TC> entity)
