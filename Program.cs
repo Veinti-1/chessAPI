@@ -52,9 +52,14 @@ try
     app.MapPut("player/{id}",
     [AllowAnonymous] async(IPlayerBusiness<int> bs, int id, clsPlayer<int> newPlayer) => Results.Ok(await bs.updatePlayer(newPlayer)));
     
-    //app.MapGet("game/{id}",
-    //[AllowAnonymous] async(IGameBusiness<int> bs, int id) => Results.Ok(await bs.getGame(id)));
+    app.MapPost("game",
+    [AllowAnonymous] async(IGameBusiness<int> bs, clsNewGame newGame) => Results.Ok(await bs.addGame(newGame)));
 
+    app.MapGet("game/{id}",
+    [AllowAnonymous] async(IGameBusiness<int> bs, int id) => Results.Ok(await bs.getGame(id)));
+
+    app.MapPut("game/{id}",
+    [AllowAnonymous] async(IGameBusiness<int> bs, clsGame<int> updatedGame) => Results.Ok(await bs.updateGame(updatedGame)));
     app.Run();
 }
 catch (Exception ex)
